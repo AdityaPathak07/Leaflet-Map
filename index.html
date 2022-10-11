@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+   crossorigin=""/>
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+   crossorigin=""></script>
+    <title>Document</title>
+<style>
+#map{
+    height: 500px;
+}
+
+.marker-pin {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% 50% 50% 0;
+    background: #c30b82;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 50%;
+    top: 50%;
+    margin: -15px 0 0 -15px;
+  }
+  
+  .marker-pin::after {
+      content: '';
+      width: 24px;
+      height: 24px;
+      margin: 3px 0 0 3px;
+      background: #fff;
+      position: absolute;
+      border-radius: 50%;
+   }
+  
+  .custom-div-icon i {
+     position: absolute;
+     width: 22px;
+     font-size: 22px;
+     left: 0;
+     right: 0;
+     margin: 10px auto;
+     text-align: center;
+  }
+  
+  .custom-div-icon i.awesome {
+     margin: 12px auto;
+     font-size: 17px;
+  }
+
+</style>
+
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        const arr =  [{
+  id: 1,
+  name: "Mumbai",
+  lat: 19.0760, 
+  ln :72.8777,
+  url : 'https://en.wikipedia.org/wiki/Mumbai'
+},{
+  id: 2,
+  name: "Delhi",
+  lat: 28.7041, 
+  ln :77.1025,
+  url : 'https://en.wikipedia.org/wiki/Delhi'
+},{
+  id: 3,
+  name: "Chennai",
+  lat:13.0827, 
+  ln :80.2707,
+  url : 'https://en.wikipedia.org/wiki/Chennai'
+}];
+        var map = L.map('map').setView([34.0479, 100.6197], 3);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© Altruism Labs'
+}).addTo(map);
+
+var customIcon = L.divIcon({
+    className: 'custom-div-icon',
+          html: "<div style='background-color:#c30b82;' class='marker-pin'></div><i class='material-icons'>location_city</i>",
+         popupAnchor: [0,-40],
+          iconSize: [30, 42],
+        iconAnchor: [15, 42],
+   });
+   
+arr.map((item) =>{
+   var marker =  L.marker([item.lat, item.ln], {icon : customIcon}).addTo(map);
+    marker.bindPopup('<strong>'+ item.name + '</strong>' +'<br>' + item.id + '<br>' +
+     '<a target = "_blank" href=' + item.url + '>Visit Wikipedia</a>').openPopup();
+})
+</script>   
+</body>
+</html>
